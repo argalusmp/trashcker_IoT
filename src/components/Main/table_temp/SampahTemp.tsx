@@ -48,7 +48,12 @@ export default function SampahTemp() {
             >
               {trash.name}
             </th>
-            <td className="px-6 py-1">adsfasdfasdf</td>
+            <td className="px-6 py-1">{
+              Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR"
+              }).format(trash.price ?? 0)
+            }</td>
             <td className="px-6 py-1">{trash.code}</td>
             <td className="px-6 py-4">
               <div className="action flex flex-grow ">
