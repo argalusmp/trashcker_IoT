@@ -3,24 +3,24 @@ import Chart from '../Chart';
 export default function Dashboard() {
   return (
   <div className="p-10 sm:ml-64 dark:bg-background-color-theme">
-    <div className="bg-outline-color-theme w-full h-14 rounded-xl px-6 text-2xl font-semibold text-white py-3 shadow-2xl">
+    <div className="dark:bg-outline-color-theme w-full h-14 rounded-xl px-6 text-2xl font-semibold dark:text-white py-3 shadow-2xl">
       Selamat Datang di Bank Sampah, User
     </div>
     <div className="flex justify-around space-x-10 mb-10 w-692 items-center">
-      <div className="h-52 bg-outline-color-theme rounded-xl mt-12 shadow-2xl">
-        <h2 className="text-white p-6 text-xl font-semibold">Earnings</h2>
+      <div className="h-52 dark:bg-outline-color-theme rounded-xl mt-12 shadow-2xl">
+        <h2 className="dark:text-white p-6 text-xl font-semibold">Earnings</h2>
         <div className="flex">
-          <div className="flex justify-around items-center h-28 w-80 bg-background-color-theme mx-6 rounded-xl text-white">
+          <div className="flex justify-around items-center h-28 w-80 dark:bg-background-color-theme mx-6 rounded-xl dark:text-white bg-gray-200">
             <h1 className="font-semibold">Pendapatan:</h1>
             <h1 className="text-secondary-color-theme font-semibold text-xl">Rp 200,000</h1>
           </div>
-          <div className="flex justify-around items-center h-28 w-80 bg-background-color-theme mx-6 rounded-xl text-white">
+          <div className="flex justify-around items-center h-28 w-80 dark:bg-background-color-theme mx-6 rounded-xl dark:text-white bg-gray-200">
             <h1 className="font-semibold">Berat:</h1>
             <h1 className="text-secondary-color-theme font-semibold text-xl">50 Kg</h1>
           </div>
         </div>
       </div>
-      <div className="h-40 w-full bg-background-color-theme shadow-2xl rounded-xl mt-12 flex-col py-3 space-y-3">
+      <div className="h-40 w-full dark:bg-background-color-theme shadow-2xl rounded-xl mt-12 flex-col py-3 space-y-3">
       <img
         src="weighter.png"
         className="w-16 mx-20"
