@@ -91,7 +91,7 @@ export default function Navbar() {
         <div className="flex flex-wrap items-center justify-between mx-auto p-4">
           <BtnHamburgerMenu />
 
-          <p className="font-semibold text-2xl dark:text-white text-gray-950 max-sm:text-lg">
+          <p className="font-semibold text-2xl dark:text-white text-gray-950 max-sm:text-lg ml-14">
             Dashboard
           </p>
 
