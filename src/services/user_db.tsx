@@ -74,9 +74,7 @@ async function index(): Promise<User[]> {
       )
     );
   });
-  return users.filter((user) => {
-    user.isAdmin == false;
-  });
+  return users.filter(user => user.isAdmin == false);
 }
 
 async function show(id: string): Promise<User | null> {
