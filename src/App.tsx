@@ -16,7 +16,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Sidebar />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route index element={<Dashboard />} />
           <Route path="/laporan" element={<Laporan />} />
           <Route path="/users" element={<Users />} />
           <Route path="/sampah" element={<Sampah />} />

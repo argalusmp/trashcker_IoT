@@ -2,7 +2,7 @@
 import { FaUserSecret } from "react-icons/fa6";
 import { BsTrash2Fill } from "react-icons/bs";
 import { BiSolidReport, BiSolidDashboard } from "react-icons/bi";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 
 export default function Sidebar() {
@@ -91,6 +91,8 @@ export default function Sidebar() {
           </ul>
         </div>
       </aside>
+
+      <Outlet />
     </>
   );
 }
