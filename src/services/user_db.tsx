@@ -2,6 +2,7 @@ import {
   Timestamp,
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -36,6 +37,7 @@ class User {
 
   toMap(): object {
     return {
+      id: this.id,
       name: this.name,
       email: this.email,
       address: this.address,
@@ -87,6 +89,9 @@ async function show(id: string): Promise<User | null> {
   }
   return null;
 }
+async function remove(id: string){
+  await deleteDoc(doc(db, collectionRoute.users, id));
+}
 
 export {
   User,
@@ -94,4 +99,5 @@ export {
   show as getUserById,
   store as addUser,
   update as updateUser,
+  remove as deleteUser,
 };
