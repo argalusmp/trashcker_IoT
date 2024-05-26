@@ -1,10 +1,12 @@
+import Chart from '../Chart';
+
 export default function Dashboard() {
   return (
   <div className="p-10 sm:ml-64 dark:bg-background-color-theme">
     <div className="bg-outline-color-theme w-full h-14 rounded-xl px-6 text-2xl font-semibold text-white py-3 shadow-2xl">
       Selamat Datang di Bank Sampah, User
     </div>
-    <div className="flex justify-around space-x-10">
+    <div className="flex justify-around space-x-10 mb-10 w-692 items-center">
       <div className="h-52 bg-outline-color-theme rounded-xl mt-12 shadow-2xl">
         <h2 className="text-white p-6 text-xl font-semibold">Earnings</h2>
         <div className="flex">
@@ -18,15 +20,16 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="h-40 w-full bg-background-color-theme shadow-2xl rounded-xl mt-12 justify-center flex items-center">
+      <div className="h-40 w-full bg-background-color-theme shadow-2xl rounded-xl mt-12 flex-col py-3 space-y-3">
       <img
         src="weighter.png"
-        className="w-16"
+        className="w-16 mx-20"
         alt="Wighter Logo"
       />
-      <div className="rounded-2xl bg-secondary-color-theme w-60 h-11 flex justify-center items-center font-semibold hover:bg-outline-color-theme">Timbang</div>
+      <div className="rounded-2xl bg-secondary-color-theme mx-3 w-46 h-11 flex justify-center items-center font-semibold hover:bg-outline-color-theme">Timbang</div>
       </div>
     </div>
+    <Chart />
     {/* <div className="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
       <div className="flex justify-between pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center">
@@ -106,6 +109,7 @@ export default function Dashboard() {
           </div>
         </div>
     </div> */}
+
   </div>
 
   );
