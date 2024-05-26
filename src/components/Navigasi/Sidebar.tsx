@@ -2,7 +2,7 @@
 import { FaUserSecret } from "react-icons/fa6";
 import { BsTrash2Fill } from "react-icons/bs";
 import { BiSolidReport, BiSolidDashboard } from "react-icons/bi";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 
 export default function Sidebar() {
@@ -26,7 +26,7 @@ export default function Sidebar() {
             </span>
           </NavLink>
           <ul className="space-y-2 font-medium">
-            <p className="text-white">Discover</p>
+            <p className="dark:text-white">Discover</p>
             <li>
               <NavLink
                 to="/"
@@ -57,7 +57,7 @@ export default function Sidebar() {
             </li>
 
             <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-              <p className="text-white">Manajemen</p>
+              <p className="dark:text-white">Manajemen</p>
               <li>
                 <NavLink
                   to="/users"
@@ -91,6 +91,7 @@ export default function Sidebar() {
           </ul>
         </div>
       </aside>
+      <Outlet />
     </>
   );
 }

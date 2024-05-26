@@ -8,6 +8,13 @@ import Users from "./components/Main/Users";
 import Laporan from "./components/Main/Laporan";
 import Sampah from "./components/Main/Sampah";
 
+// import your icons
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+
 function App() {
   useEffect(() => {
     initFlowbite();
@@ -16,7 +23,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Sidebar />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route index element={<Dashboard />} />
           <Route path="/laporan" element={<Laporan />} />
           <Route path="/users" element={<Users />} />
           <Route path="/sampah" element={<Sampah />} />
@@ -27,3 +34,6 @@ function App() {
 }
 
 export default App;
+
+//Icons
+library.add(fab, fas, far);
