@@ -68,6 +68,9 @@ export default function LaporanTemp() {
           </th>
           <td className="px-6 py-1">White</td>
           <td className="px-6 py-1">$5121</td>
+          <td className="px-6 py-1">$5121</td>
+          <td className="px-6 py-1">$5121</td>
+          <td className="px-6 py-1">$5121</td>
           <td className="px-6 py-4">
             <div className="action flex flex-grow ">
               <a
@@ -95,6 +98,9 @@ export default function LaporanTemp() {
           </th>
           <td className="px-6 py-1">Black</td>
           <td className="px-6 py-1">$56001</td>
+          <td className="px-6 py-1">$5121</td>
+          <td className="px-6 py-1">$5121</td>
+          <td className="px-6 py-1">$5121</td>
           <td className="px-6 py-4">
             <div className="action flex flex-grow ">
               <a
