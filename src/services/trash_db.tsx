@@ -5,13 +5,15 @@ import {collectionRoute} from "../enum"
 class Trash {
     id?: string;
     name?: string;
+    price?: number;
     code?: string;
     createdAt?: Timestamp;
     updatedAt?: Timestamp;
     
-    constructor(name?: string, code?: string, createdAt?: Timestamp, updatedAt?:Timestamp, id?: string){
+    constructor(name?: string, code?: string, price?: number, createdAt?: Timestamp, updatedAt?:Timestamp, id?: string){
         this.id = id;
         this.name = name;
+        this.price = price;
         this.code = code;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -20,6 +22,7 @@ class Trash {
     toMap(): object{
         return {
             name: this.name,
+            price: this.price,
             code: this.code,
             created_at: this.createdAt,
             updated_at: this.updatedAt
@@ -40,7 +43,7 @@ async function index(): Promise<Trash[]>{
     const res = (await getDocs(collection(db, collectionRoute.trashes)))
     res.docs.map((e) => {
         const data = e.data();
-        users.push(new Trash(data?.name, data?.code, data?.created_at, data?.updated_at, e.id));
+        users.push(new Trash(data?.name, data?.code, data?.price, data?.created_at, data?.updated_at, e.id));
     })
     return users;
 }
@@ -49,7 +52,7 @@ async function show(id: string): Promise<Trash | null>{
     const res = (await getDoc(doc(db, collectionRoute.trashes, id)))
     if (res.exists != null) {
         const data = res.data();
-        return new Trash(data?.name, data?.code, data?.created_at, data?.updated_at, res.id);
+        return new Trash(data?.name, data?.code, data?.price, data?.created_at, data?.updated_at, res.id);
     }
     return null;
 }
