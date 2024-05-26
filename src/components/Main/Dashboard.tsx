@@ -26,7 +26,7 @@ export default function Dashboard() {
         className="w-16 mx-20"
         alt="Wighter Logo"
       />
-      <div className="rounded-2xl bg-secondary-color-theme mx-3 w-46 h-11 flex justify-center items-center font-semibold hover:bg-outline-color-theme">Timbang</div>
+      <div className="rounded-2xl bg-secondary-color-theme mx-3 w-46 h-11 flex justify-center items-center font-semibold hover:bg-outline-color-theme cursor-pointer">Timbang</div>
       </div>
     </div>
     <Chart />
