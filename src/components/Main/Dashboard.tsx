@@ -4,14 +4,27 @@ export default function Dashboard() {
     <div className="bg-outline-color-theme w-full h-14 rounded-xl px-6 text-2xl font-semibold text-white py-3 shadow-2xl">
       Selamat Datang di Bank Sampah, User
     </div>
-    <div className="flex-col justify-center">
-      <div className="h-52 w-full bg-outline-color-theme rounded-xl mt-12">
-        <h2 className="text-white p-5 text-xl font-semibold">Earnings</h2>
-        <div className="flex-col justify-center">
-          {/* <div className="h-28 w-">
-            Pendapatan
-          </div> */}
+    <div className="flex justify-around space-x-10">
+      <div className="h-52 bg-outline-color-theme rounded-xl mt-12 shadow-2xl">
+        <h2 className="text-white p-6 text-xl font-semibold">Earnings</h2>
+        <div className="flex">
+          <div className="flex justify-around items-center h-28 w-80 bg-background-color-theme mx-6 rounded-xl text-white">
+            <h1 className="font-semibold">Pendapatan:</h1>
+            <h1 className="text-secondary-color-theme font-semibold text-xl">Rp 200,000</h1>
+          </div>
+          <div className="flex justify-around items-center h-28 w-80 bg-background-color-theme mx-6 rounded-xl text-white">
+            <h1 className="font-semibold">Berat:</h1>
+            <h1 className="text-secondary-color-theme font-semibold text-xl">50 Kg</h1>
+          </div>
         </div>
+      </div>
+      <div className="h-40 w-full bg-background-color-theme shadow-2xl rounded-xl mt-12 justify-center flex items-center">
+      <img
+        src="weighter.png"
+        className="w-16"
+        alt="Wighter Logo"
+      />
+      <div className="rounded-2xl bg-secondary-color-theme w-60 h-11 flex justify-center items-center font-semibold hover:bg-outline-color-theme">Timbang</div>
       </div>
     </div>
     {/* <div className="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
