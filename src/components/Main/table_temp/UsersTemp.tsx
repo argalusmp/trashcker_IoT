@@ -1,12 +1,6 @@
 "use server";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  User,
-  getUserById,
-  getUsers,
-  addUser,
-  updateUser,
-} from "../../../services/user_db";
+import { User, getUsers } from "../../../services/user_db";
 import { useState, useEffect } from "react";
 
 export default function UsersTemp() {
