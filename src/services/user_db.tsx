@@ -16,6 +16,7 @@ class User {
   name?: string;
   email?: string;
   address?: string;
+  isAdmin?: boolean = false;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
 
@@ -25,11 +26,13 @@ class User {
     address?: string,
     createdAt?: Timestamp,
     updatedAt?: Timestamp,
-    id?: string
+    id?: string,
+    isAdmin: boolean = false,
   ) {
     this.id = id;
     this.name = name;
     this.email = email;
+    this.isAdmin = isAdmin;
     this.address = address;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
@@ -48,7 +51,7 @@ class User {
 }
 
 async function store(user: User) {
-  await addDoc(collection(db, collectionRoute.users), user.toMap());
+    await addDoc(collection(db, collectionRoute.users), user.toMap());
 }
 
 async function update(id: string, user: User) {
@@ -67,11 +70,11 @@ async function index(): Promise<User[]> {
         data?.address,
         data?.created_at,
         data?.updated_at,
-        e.id
+        e.id,
       )
     );
   });
-  return users;
+  return users.filter(user => user.isAdmin == false);
 }
 
 async function show(id: string): Promise<User | null> {
