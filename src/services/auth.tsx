@@ -9,7 +9,8 @@ async function signIn(email: string, password: string){
 async function createUser(user: UserModel, password: string, onError: Function){
     if (user.email != null) {
         try {
-            await createUserWithEmailAndPassword(auth, user.email, password);
+            const created = await createUserWithEmailAndPassword(auth, user.email, password);
+            user.id = created.user.uid
             await addUser(user);
         } catch (error) {
             onError()
@@ -31,11 +32,22 @@ function isLoggedIn(): boolean{
     return false;
 }
 
-async function getCurrenUser(): Promise<User | null>{
+function onAuthStateChange(callback: (user: UserModel | null) => void) {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const userInfo = await getUserById(user.uid);
+            callback(userInfo);
+        } else {
+            callback(null);
+        }
+    });
+}
+
+async function getCurrentUser(): Promise<User | null>{
     if (auth.currentUser?.uid != null) {
         return await getUserById(auth.currentUser?.uid);
     }
     return null;
 }
 
-export {signIn, createUser, logOut, isLoggedIn, getCurrenUser}
+export {signIn, createUser, logOut, isLoggedIn, getCurrentUser, onAuthStateChange}
