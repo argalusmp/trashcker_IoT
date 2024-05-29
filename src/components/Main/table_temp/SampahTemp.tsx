@@ -1,10 +1,10 @@
 "use server";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function SampahTemp({ trashs }) {
+export default function SampahTemp({ trashs, onEditClick, onDeleteClick }) {
   return (
     <>
-      <thead className="text-xs text-gray-900 uppercase dark:text-gray-400">
+      <thead className=" text-xs text-gray-900 uppercase dark:text-gray-400 ">
         <tr>
           <th scope="col" className="px-6 py-3">
             Jenis Sampah
@@ -39,14 +39,14 @@ export default function SampahTemp({ trashs }) {
             <td className="px-6 py-4">
               <div className="action flex flex-grow ">
                 <a
-                  href="#"
+                  onClick={() => onEditClick(trash)}
                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 >
                   <FontAwesomeIcon icon={"pen-to-square"} color="#ABF600" />
                 </a>
                 <p className="mx-2"> | </p>
                 <a
-                  href="#"
+                  onClick={() => onDeleteClick(trash.id)}
                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 >
                   <FontAwesomeIcon icon={"trash"} color="#ABF600" />

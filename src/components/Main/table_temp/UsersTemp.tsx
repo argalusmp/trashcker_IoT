@@ -1,19 +1,7 @@
 "use server";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { User, getUsers } from "../../../services/user_db";
-import { useState, useEffect } from "react";
 
-export default function UsersTemp() {
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    async function fetchdata() {
-      const data = await getUsers();
-      setUsers(data);
-    }
-    fetchdata();
-  }, []);
-
+export default function UsersTemp({ users, onEditClick, onDeleteClick }) {
   return (
     <>
       <thead className="text-xs text-gray-900 uppercase dark:text-gray-400">
@@ -25,8 +13,12 @@ export default function UsersTemp() {
             Email
           </th>
           <th scope="col" className="px-6 py-3">
+            Role
+          </th>
+          <th scope="col" className="px-6 py-3">
             Alamat
           </th>
+
           <th scope="col" className="px-6 py-3">
             Action
           </th>
@@ -34,7 +26,7 @@ export default function UsersTemp() {
       </thead>
       <tbody>
         {users.map((user) => (
-          <tr>
+          <tr key={user.id}>
             <th
               scope="row"
               className="px-6 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -42,18 +34,19 @@ export default function UsersTemp() {
               {user.name}
             </th>
             <td className="px-6 py-1">{user.email}</td>
+            <td className="px-6 py-1">{user.isAdmin ? "Admin" : "User"}</td>
             <td className="px-6 py-1">{user.address}</td>
             <td className="px-6 py-4">
               <div className="action flex flex-grow ">
                 <a
-                  href="#"
+                  onClick={() => onEditClick(user)}
                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 >
                   <FontAwesomeIcon icon={"pen-to-square"} color="#ABF600" />
                 </a>
                 <p className="mx-2"> | </p>
                 <a
-                  href="#"
+                  onClick={() => onDeleteClick(user.id)}
                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 >
                   <FontAwesomeIcon icon={"trash"} color="#ABF600" />

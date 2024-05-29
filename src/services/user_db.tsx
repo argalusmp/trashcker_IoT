@@ -16,7 +16,7 @@ class User {
   name?: string;
   email?: string;
   address?: string;
-  isAdmin?: boolean = false;
+  isAdmin?: boolean;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
 
@@ -27,7 +27,7 @@ class User {
     createdAt?: Timestamp,
     updatedAt?: Timestamp,
     id?: string,
-    isAdmin: boolean = false,
+    isAdmin: boolean = false
   ) {
     this.id = id;
     this.name = name;
@@ -43,6 +43,7 @@ class User {
       id: this.id,
       name: this.name,
       email: this.email,
+      isAdmin: this.isAdmin,
       address: this.address,
       created_at: this.createdAt,
       updated_at: this.updatedAt,
@@ -51,7 +52,7 @@ class User {
 }
 
 async function store(user: User) {
-    await addDoc(collection(db, collectionRoute.users), user.toMap());
+  await addDoc(collection(db, collectionRoute.users), user.toMap());
 }
 
 async function update(id: string, user: User) {
@@ -71,10 +72,11 @@ async function index(): Promise<User[]> {
         data?.created_at,
         data?.updated_at,
         e.id,
+        data?.isAdmin
       )
     );
   });
-  return users.filter(user => user.isAdmin == false);
+  return users.filter((user) => user.isAdmin == false);
 }
 
 async function show(id: string): Promise<User | null> {
@@ -92,7 +94,7 @@ async function show(id: string): Promise<User | null> {
   }
   return null;
 }
-async function remove(id: string){
+async function remove(id: string) {
   await deleteDoc(doc(db, collectionRoute.users, id));
 }
 
