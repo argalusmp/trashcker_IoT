@@ -9,7 +9,8 @@ async function signIn(email: string, password: string){
 async function createUser(user: UserModel, password: string, onError: Function){
     if (user.email != null) {
         try {
-            await createUserWithEmailAndPassword(auth, user.email, password);
+            const created = await createUserWithEmailAndPassword(auth, user.email, password);
+            user.id = created.user.uid
             await addUser(user);
         } catch (error) {
             onError()

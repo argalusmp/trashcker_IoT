@@ -1,4 +1,4 @@
-import { Timestamp, addDoc, collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { Timestamp, addDoc, collection, doc, getDoc, getDocs, onSnapshot, setDoc } from "firebase/firestore";
 import { db } from "./services";
 import {collectionRoute} from "../enum"
 import { User } from "./user_db";
@@ -95,4 +95,52 @@ async function show(id: string): Promise<Scale | null>{
     return null;
 }
 
-export  {Scale, index as getScales, show as getScaleById, store as addScale, update as updateScale};
+async function getRevenue(onNext: (price: number)=>void){
+    return onSnapshot(collection(db, collectionRoute.scales), (snapshot)=>{
+        if (!snapshot.empty) {
+            var price: number = 0;
+            snapshot.docs.forEach((element)=>{
+                if (element.data().total_price != null) {
+                    price += element.data().total_price
+                }
+            });
+            onNext(price);
+        }
+    })
+}
+function getWeightTotal(onNext: (weight: number)=>void){
+    return onSnapshot(collection(db, collectionRoute.scales), (snapshot)=>{
+        if (!snapshot.empty) {
+            var weight: number = 0;
+            snapshot.docs.forEach((element)=>{
+                if (element.data().weight != null) {
+                    weight += element.data().weight
+                }
+            });
+            onNext(weight);
+        }
+    })
+    // const res = await getDocs(collection(db, collectionRoute.scales));
+    // res.docs.forEach(element => {
+    //     const data = element.data();
+    //     if (data.weight != null || data.weight != undefined) {
+    //         weigth += data.weight;
+    //     }
+    // });
+}
+
+// async function getGraph(onNext: (weight: number)=>void){
+//     return onSnapshot(collection(db, collectionRoute.scales), (snapshot)=>{
+//         if (!snapshot.empty) {
+//             var weight: number = 0;
+//             snapshot.docs.forEach((element)=>{
+//                 if (element.data().weight != null) {
+//                     weight += element.data().weight
+//                 }
+//             });
+//             onNext(weight);
+//         }
+//     })
+// }
+
+export  {Scale, index as getScales, show as getScaleById, store as addScale, update as updateScale, getRevenue, getWeightTotal};
