@@ -36,9 +36,9 @@ export default function LaporanTemp() {
           <th scope="col" className="px-6 py-3">
             Penjual
           </th>
-          <th scope="col" className="px-6 py-3">
+          {/* <th scope="col" className="px-6 py-3">
             Action
-          </th>
+          </th> */}
         </tr>
       </thead>
       <tbody>
@@ -56,7 +56,7 @@ export default function LaporanTemp() {
             <td className="px-6 py-1">{scale.weight}</td>
             <td className="px-6 py-1">{scale.total_price}</td>
             <td className="px-6 py-1">{scale.user?.name}</td>
-            <td className="px-6 py-4">
+            {/* <td className="px-6 py-4">
               <div className="action flex flex-grow ">
                 <a
                   href="#"
@@ -72,7 +72,7 @@ export default function LaporanTemp() {
                   <FontAwesomeIcon icon={"trash"} color="#ABF600" />
                 </a>
               </div>
-            </td>
+            </td> */}
           </tr>
         ))}
       </tbody>

@@ -96,12 +96,12 @@ export default function Navbar() {
           </p>
 
           <div className="flex flex-wrap items-center justify-end pl-4">
-            <NavLink
+            {/* <NavLink
               className=" rounded border bg-primary-color-theme border-white px-8 py-1 text-sm font-medium text-white  dark:hover:bg-opacity-80 hover:text-secondary-color-theme focus:outline-none focus:ring hover:scale-110 hover:shadow-xl hidden lg:block"
               to="/"
             >
               Share
-            </NavLink>
+            </NavLink> */}
             <DarkModeToggle />
             <MenuProfileNavbar />
           </div>
