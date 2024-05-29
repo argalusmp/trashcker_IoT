@@ -5,6 +5,7 @@ import { User as UserModel, getUsers } from "../../services/user_db";
 import { calculateTotalPrice, calculateTotalWeight } from "../../services/scale_db";
 import { Trash as TrashModel, getTrashs } from "../../services/trash_db";
 import { useNavigate } from "react-router-dom";
+import mqtt from "mqtt"
 
 function getTodayDate(): string {
   const today = new Date();
@@ -21,8 +22,43 @@ export default function Dashboard() {
   const [users, setUsers] = useState<UserModel[]>([]);
   const [trashes, setTrashes] = useState<TrashModel[]>([]);
   const [todayDate, setTodayDate] = useState<string>(getTodayDate());
+  const [client, setClient] = useState(null)
+  const [connectStatus, setConnectStatus] = useState('Connect')
+  const [payload, setPayload] = useState({message: null})
   const navigate = useNavigate(); 
+  const topic = "emqx/esp32";
 
+  const mqttConnect = (host, mqttOption) => {
+    setConnectStatus('Connecting')
+    setClient(mqtt.connect(host, mqttOption))
+  }
+
+  const mqttSub = (subscription) => {
+    if (client) {
+      // topic & QoS for MQTT subscribing
+      const { topic, qos } = subscription
+      // subscribe topic
+      // https://github.com/mqttjs/MQTT.js#mqttclientsubscribetopictopic-arraytopic-object-options-callback
+      client.subscribe(topic, { qos }, (error) => {
+        if (error) {
+          console.log('Subscribe to topics error', error)
+          return
+        }
+        console.log(`Subscribe to topics: ${topic}`)
+      })
+    }
+  }
+
+  const setupMQTT = () => {
+    const host = "wss://z9080011.ala.asia-southeast1.emqxsl.com:8084/mqtt";
+    const options = {
+      clientId: "emqx_react_" + Math.random().toString(16).substring(2, 8),
+      username: "adit",
+      password: "123456",
+    };
+
+    mqttConnect(host, options);
+  };
 
   useEffect(() => {
     onAuthStateChange(setUser);
@@ -42,7 +78,34 @@ export default function Dashboard() {
     };
 
     fetchData();
+    setupMQTT();
   }, []);
+
+  useEffect(() => {
+    if (client) {
+      client.on('connect', () => {
+        setConnectStatus('Connected')
+        console.log('connection successful')
+      })
+
+      client.on('error', (err) => {
+        console.error('Connection error: ', err)
+        client.end()
+      })
+
+      client.on('reconnect', () => {
+        setConnectStatus('Reconnecting')
+      })
+
+      client.on('message', (topic, message) => {
+        const payload = JSON.parse(message.toString())
+        setPayload(payload)
+        console.log(`received message: ${message} from topic: ${topic}`)
+      })
+
+      mqttSub({topic: topic, qos: 0});
+    }
+  }, [client])
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -84,7 +147,7 @@ export default function Dashboard() {
 
     <div id="static-modal" data-modal-backdrop="static" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div className="relative p-4 w-full max-w-2xl max-h-full">
-        <form className="bg-white relative rounded-lg shadow dark:bg-outline-color-theme" onSubmit={handleSubmit}>
+        <form className="bg-white relative rounded-lg shadow dark:bg-outline-color-theme" onSubmit={handleSubmit} method="POST">
             <div className="p-4 md:p-5 space-y-4 flex flex-col">
               <div className='flex justify-between items-center'>
                 <h3 className='dark:text-white font-semibold'>Tanggal</h3>
@@ -116,7 +179,8 @@ export default function Dashboard() {
                 className="w-32"
                 alt="Wighter Logo"
               />
-              <h1 className='text-white font-semibold text-3xl'>10 Kg</h1>
+              {/* <input type="text" value={ payload.berat??0 }/> */}
+              <h1 className='text-white font-semibold text-3xl'>{ payload.berat??0 }</h1>
             </div>
             <div className="flex items-center p-4 md:p-5 rounded-b mt-5">
                 <button type="button" className="text-black bg-secondary-color-theme hover:bg-gray-200 font-semibold rounded-lg text-sm px-5 py-2.5 w-full text-center" data-modal-target="dashboard">Timbang</button>

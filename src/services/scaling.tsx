@@ -27,7 +27,9 @@ async function stopScaling(id: string){
 }
 
 async function startScaling(){
-  await addDoc(collection(db, collectionRoute.scaling), {});
+  await addDoc(collection(db, collectionRoute.scaling), { weight:0 });
 }
+
+
 
 export { Scaling, listenScaling, stopScaling, startScaling }
