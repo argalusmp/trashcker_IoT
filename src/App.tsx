@@ -7,6 +7,7 @@ import Dashboard from "./components/Main/Dashboard";
 import Users from "./components/Main/Users";
 import Laporan from "./components/Main/Laporan";
 import Sampah from "./components/Main/Sampah";
+import Login from "./components/login";
 
 // import your icons
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -22,12 +23,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Sidebar />}>
-          <Route index element={<Dashboard />} />
-          <Route path="/laporan" element={<Laporan />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/sampah" element={<Sampah />} />
-        </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Sidebar />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/laporan" element={<Laporan />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/sampah" element={<Sampah />} />
+          </Route>
       </Routes>
     </Router>
   );

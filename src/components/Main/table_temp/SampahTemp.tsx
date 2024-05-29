@@ -1,13 +1,7 @@
 "use server";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Trash,
-  getTrashById,
-  getTrashs,
-  addTrash,
-  updateTrash,
-} from "../../../services/trash_db";
+import { Trash, getTrashs } from "../../../services/trash_db";
 import { useState, useEffect } from "react";
 
 export default function SampahTemp() {
@@ -41,19 +35,19 @@ export default function SampahTemp() {
       </thead>
       <tbody>
         {trashs.map((trash) => (
-          <tr>
+          <tr key={trash.id}>
             <th
               scope="row"
               className="px-6 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
               {trash.name}
             </th>
-            <td className="px-6 py-1">{
-              Intl.NumberFormat("id-ID", {
+            <td className="px-6 py-1">
+              {Intl.NumberFormat("id-ID", {
                 style: "currency",
-                currency: "IDR"
-              }).format(trash.price ?? 0)
-            }</td>
+                currency: "IDR",
+              }).format(trash.price ?? 0)}
+            </td>
             <td className="px-6 py-1">{trash.code}</td>
             <td className="px-6 py-4">
               <div className="action flex flex-grow ">
