@@ -42,11 +42,11 @@ function onAuthStateChange(callback: (user: UserModel | null) => void) {
     });
 }
 
-async function getCurrenUser(): Promise<User | null>{
+async function getCurrentUser(): Promise<User | null>{
     if (auth.currentUser?.uid != null) {
         return await getUserById(auth.currentUser?.uid);
     }
     return null;
 }
 
-export {signIn, createUser, logOut, isLoggedIn, getCurrenUser, onAuthStateChange}
+export {signIn, createUser, logOut, isLoggedIn, getCurrentUser, onAuthStateChange}

@@ -1,18 +1,45 @@
 import { useEffect, useState } from "react";
 import Chart from '../Chart';
 import { onAuthStateChange } from "../../services/auth";
-import { User as UserModel } from "../../services/user_db";
+import { User as UserModel, getUsers } from "../../services/user_db";
+import { calculateTotalPrice, calculateTotalWeight } from "../../services/scale_db";
+import { Trash as TrashModel, getTrashs } from "../../services/trash_db";
+
+function getTodayDate(): string {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 export default function Dashboard() {
-  // let [user, setinputvalue1] = useState("");
-  // let [sampah, setinputvalue2] = useState("");
-  
   const [user, setUser] = useState<UserModel | null>(null);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [totalWeight, setTotalWeight] = useState<number>(0);
+  const [users, setUsers] = useState<UserModel[]>([]);
+  const [trashes, setTrashes] = useState<TrashModel[]>([]);
+  const [todayDate, setTodayDate] = useState<string>(getTodayDate());
 
   useEffect(() => {
     onAuthStateChange(setUser);
-  }, []);
 
+    const fetchData = async () => {
+      const price = await calculateTotalPrice();
+      setTotalPrice(price);
+
+      const weight = await calculateTotalWeight();
+      setTotalWeight(weight);
+
+      const fetchedUsers = await getUsers();
+      setUsers(fetchedUsers);
+
+      const fetchedTrashes = await getTrashs();
+      setTrashes(fetchedTrashes);
+    };
+
+    fetchData();
+  }, []);
   return (
   <>
   <div className="p-10 sm:ml-64 dark:bg-background-color-theme">
@@ -25,11 +52,11 @@ export default function Dashboard() {
         <div className="flex">
           <div className="flex justify-around items-center h-28 w-80 dark:bg-background-color-theme mx-6 rounded-xl dark:text-white bg-gray-200">
             <h1 className="font-semibold">Pendapatan:</h1>
-            <h1 className="text-secondary-color-theme font-semibold text-xl">Rp 200,000</h1>
+            <h1 className="text-secondary-color-theme font-semibold text-xl">{`Rp ${totalPrice.toLocaleString()}`}</h1>
           </div>
           <div className="flex justify-around items-center h-28 w-80 dark:bg-background-color-theme mx-6 rounded-xl dark:text-white bg-gray-200">
             <h1 className="font-semibold">Berat:</h1>
-            <h1 className="text-secondary-color-theme font-semibold text-xl">50 Kg</h1>
+            <h1 className="text-secondary-color-theme font-semibold text-xl">{`${totalWeight} Kg`}</h1>
           </div>
         </div>
       </div>
@@ -58,11 +85,19 @@ export default function Dashboard() {
                     </button>
                 </div>
               </div>
-                <input className='dark:bg-black dark:text-white rounded-xl' type="date"/>
+              <input className='dark:bg-black dark:text-white rounded-xl' type="date" value={todayDate} />
               <h3 className='dark:text-white font-semibold'>User</h3>
-                <input className='dark:bg-black dark:text-white rounded-xl' type="text" placeholder='Pilih User'/>
+              <select className='dark:bg-black dark:text-white rounded-xl'>
+                {users.map((user) => (
+                  <option key={user.id} value={user.id}>{user.name}</option>
+                ))}
+              </select>
               <h3 className='dark:text-white font-semibold'>Jenis Sampah</h3>
-                <input className='dark:bg-black dark:text-white rounded-xl' type="text" placeholder='Pilih Jenis Sampah'/>
+              <select className='dark:bg-black dark:text-white rounded-xl'>
+                {trashes.map((trash) => (
+                  <option key={trash.id} value={trash.id}>{trash.name}</option>
+                ))}
+              </select>
             </div>
             <div className='flex flex-col justify-center items-center mt-5'>
               <img
