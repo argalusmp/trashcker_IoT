@@ -1,15 +1,23 @@
-// import { useState } from 'react';
+import { useEffect, useState } from "react";
 import Chart from '../Chart';
+import { onAuthStateChange } from "../../services/auth";
+import { User as UserModel } from "../../services/user_db";
 
 export default function Dashboard() {
   // let [user, setinputvalue1] = useState("");
   // let [sampah, setinputvalue2] = useState("");
+  
+  const [user, setUser] = useState<UserModel | null>(null);
+
+  useEffect(() => {
+    onAuthStateChange(setUser);
+  }, []);
 
   return (
   <>
   <div className="p-10 sm:ml-64 dark:bg-background-color-theme">
     <div className="dark:bg-outline-color-theme w-full h-14 rounded-xl px-6 text-2xl font-semibold dark:text-white py-3 shadow-2xl">
-      Selamat Datang di Bank Sampah, User
+      {`Selamat Datang di Bank Sampah, ${user?.name || 'User'}`}
     </div>
     <div className="flex justify-around space-x-10 mb-10 w-692 items-center">
       <div className="h-52 dark:bg-outline-color-theme rounded-xl mt-12 shadow-2xl">

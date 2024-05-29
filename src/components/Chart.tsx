@@ -137,7 +137,7 @@ const { width } = useWindowDimensions();
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="a" radius={[20,20,0,0]} stackId="a" fill="#ABF600" />
+      <Bar dataKey="a" radius={[10,10,0,0]} stackId="a" fill="#ABF600" />
       <Bar dataKey="b" stackId="a" fill="#5B7E0B" />
       <Bar dataKey="c" stackId="a" fill="#ABF600" />
       <Bar dataKey="d" stackId="a" fill="#5B7E0B" />

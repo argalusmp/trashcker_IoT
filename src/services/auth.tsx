@@ -31,6 +31,17 @@ function isLoggedIn(): boolean{
     return false;
 }
 
+function onAuthStateChange(callback: (user: UserModel | null) => void) {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const userInfo = await getUserById(user.uid);
+            callback(userInfo);
+        } else {
+            callback(null);
+        }
+    });
+}
+
 async function getCurrenUser(): Promise<User | null>{
     if (auth.currentUser?.uid != null) {
         return await getUserById(auth.currentUser?.uid);
@@ -38,4 +49,4 @@ async function getCurrenUser(): Promise<User | null>{
     return null;
 }
 
-export {signIn, createUser, logOut, isLoggedIn, getCurrenUser}
+export {signIn, createUser, logOut, isLoggedIn, getCurrenUser, onAuthStateChange}
