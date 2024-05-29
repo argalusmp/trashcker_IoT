@@ -26,7 +26,7 @@ export default function UsersTemp({ users, onEditClick, onDeleteClick }) {
       </thead>
       <tbody>
         {users.map((user) => (
-          <tr key={user.id} className="dark:text-white">
+          <tr key={user.id} className="dark:text-white text-black">
             <th
               scope="row"
               className="px-6 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"

@@ -222,7 +222,7 @@ export default function Users() {
 
   return (
     <div className="p-16 sm:ml-64 dark:bg-background-color-theme min-h-screen">
-      <div className="px-6 pt-1 bg-outline-color-theme rounded-2xl shadow-[10px_15px_4px_0_rgba(0,0,0,0.3)]">
+      <div className="px-6 pt-1 dark:bg-outline-color-theme rounded-2xl shadow-[10px_15px_4px_0_rgba(0,0,0,0.3)]">
         <Table>
           <UsersTemp
             users={users}
@@ -234,7 +234,7 @@ export default function Users() {
           <button
             data-modal-target="crud-modal-user"
             data-modal-toggle="crud-modal-user"
-            className="block mb-12 mt-24 text-black dark:bg-secondary-color-theme bg-outline-color-theme focus:ring-4 focus:outline-none  font-semibold rounded-lg font-sans"
+            className="block mb-12 mt-24 text-black bg-secondary-color-theme focus:ring-4 focus:outline-none  font-semibold rounded-lg font-sans"
             type="button"
           >
             <p className="text-center py-3 px-5">Tambah User</p>

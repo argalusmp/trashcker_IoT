@@ -27,7 +27,7 @@ function App() {
         <Route path="/mqtt" element={<Mqtt />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Sidebar />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route index element={<Dashboard />} />
           <Route path="/laporan" element={<Laporan />} />
           <Route path="/users" element={<Users />} />
           <Route path="/sampah" element={<Sampah />} />

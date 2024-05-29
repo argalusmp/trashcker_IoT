@@ -43,7 +43,7 @@ export default function LaporanTemp() {
       </thead>
       <tbody>
         {scales.map((scale) => (
-          <tr>
+          <tr className="dark:text-white text-black">
             <th
               scope="row"
               className="px-6 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"
