@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./services";
 import { collectionRoute } from "../enum";
+import { nanoid } from "nanoid";
 
 class Trash {
   id?: string;
@@ -61,12 +62,12 @@ async function index(): Promise<Trash[]> {
     const data = e.data();
     scale.push(
       new Trash(
-        data?.name,
-        data?.code,
-        data?.price,
-        data?.created_at,
-        data?.updated_at,
-        e.id
+        data?.name || null,
+        data?.code || null,
+        data?.price || null,
+        data?.created_at || null,
+        data?.updated_at || null,
+        e.id || nanoid()
       )
     );
   });
