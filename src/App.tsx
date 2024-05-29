@@ -23,13 +23,13 @@ function App() {
   return (
     <Router>
       <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Sidebar />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/laporan" element={<Laporan />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/sampah" element={<Sampah />} />
-          </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Sidebar />}>
+          <Route index element={<Dashboard />} />
+          <Route path="/laporan" element={<Laporan />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/sampah" element={<Sampah />} />
+        </Route>
       </Routes>
     </Router>
   );
