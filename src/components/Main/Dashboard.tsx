@@ -4,6 +4,7 @@ import { onAuthStateChange } from "../../services/auth";
 import { User as UserModel, getUsers } from "../../services/user_db";
 import { calculateTotalPrice, calculateTotalWeight } from "../../services/scale_db";
 import { Trash as TrashModel, getTrashs } from "../../services/trash_db";
+import { useNavigate } from "react-router-dom";
 
 function getTodayDate(): string {
   const today = new Date();
@@ -20,6 +21,8 @@ export default function Dashboard() {
   const [users, setUsers] = useState<UserModel[]>([]);
   const [trashes, setTrashes] = useState<TrashModel[]>([]);
   const [todayDate, setTodayDate] = useState<string>(getTodayDate());
+  const navigate = useNavigate(); 
+
 
   useEffect(() => {
     onAuthStateChange(setUser);
@@ -40,9 +43,17 @@ export default function Dashboard() {
 
     fetchData();
   }, []);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    // Perform any necessary actions here (e.g., submit form data)
+    // After form submission, navigate to the dashboard
+    navigate('/dashboard'); // Redirect to the dashboard
+  };
+
   return (
   <>
-  <div className="p-10 sm:ml-64 dark:bg-background-color-theme">
+  <div id="dashboard" className="p-10 sm:ml-64 dark:bg-background-color-theme">
     <div className="dark:bg-outline-color-theme w-full h-14 rounded-xl px-6 text-2xl font-semibold dark:text-white py-3 shadow-2xl">
       {`Selamat Datang di Bank Sampah, ${user?.name || 'User'}`}
     </div>
@@ -73,7 +84,7 @@ export default function Dashboard() {
 
     <div id="static-modal" data-modal-backdrop="static" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div className="relative p-4 w-full max-w-2xl max-h-full">
-        <div className="bg-white relative rounded-lg shadow dark:bg-outline-color-theme">
+        <form className="bg-white relative rounded-lg shadow dark:bg-outline-color-theme" onSubmit={handleSubmit}>
             <div className="p-4 md:p-5 space-y-4 flex flex-col">
               <div className='flex justify-between items-center'>
                 <h3 className='dark:text-white font-semibold'>Tanggal</h3>
@@ -108,13 +119,13 @@ export default function Dashboard() {
               <h1 className='text-white font-semibold text-3xl'>10 Kg</h1>
             </div>
             <div className="flex items-center p-4 md:p-5 rounded-b mt-5">
-                <button data-modal-hide="static-modal" type="button" className="text-black bg-secondary-color-theme hover:bg-gray-200 font-semibold rounded-lg text-sm px-5 py-2.5 w-full text-center" data-modal-target="timbang" data-modal-toggle="timbang">Timbang</button>
+                <button type="button" className="text-black bg-secondary-color-theme hover:bg-gray-200 font-semibold rounded-lg text-sm px-5 py-2.5 w-full text-center" data-modal-target="dashboard">Timbang</button>
             </div>
-        </div>
+        </form>
     </div>
     </div>
 
-    <div id="timbang" data-modal-backdrop="static" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    {/* <div id="timbang" data-modal-backdrop="static" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div className="relative p-4 w-full max-w-2xl max-h-full">
         <div className="bg-white relative rounded-lg shadow dark:bg-outline-color-theme">
             <div className="p-4 md:p-5 space-y-4 flex flex-col">
@@ -131,17 +142,15 @@ export default function Dashboard() {
               <div className='dark:bg-black dark:text-white rounded-xl'></div>
               <h3 className='dark:text-white font-semibold'>User</h3>
               <div className='dark:bg-black dark:text-white rounded-xl'></div>
-                {/* <input className='dark:bg-black dark:text-white rounded-xl' type="text" placeholder='Pilih User'/> */}
               <h3 className='dark:text-white font-semibold'>Jenis Sampah</h3>
               <div className='dark:bg-black dark:text-white rounded-xl'></div>
-                {/* <input className='dark:bg-black dark:text-white rounded-xl' type="text" placeholder='Pilih Jeni s Sampah'/> */}
             </div>
             <div className="flex items-center p-4 md:p-5 rounded-b mt-10">
                 <button data-modal-hide="static-modal" type="button" className="text-black bg-secondary-color-theme hover:bg-gray-200 font-semibold rounded-lg text-sm px-5 py-2.5 w-full text-center" data-modal-target="static-modal" data-modal-toggle="static-modal">Tambang</button>
             </div>
         </div>
     </div>
-    </div>
+    </div> */}
   </div>
   </>
   );

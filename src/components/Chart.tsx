@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { getTrashs } from "../services/trash_db"; // Adjust the import path as necessary
 
@@ -23,18 +23,23 @@ function useWindowDimensions() {
 }
 
 function formatMonthlyData(trashData) {
-  const monthlyData = {};
+  // Initialize the monthlyData object with all months
+  const allMonths = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
 
+  const monthlyData = allMonths.reduce((acc, month) => {
+    acc[month] = { name: month };
+    return acc;
+  }, {});
+
+  // Populate the monthlyData object with trash data
   trashData.forEach(trash => {
     const month = trash.updatedAt.toDate().toLocaleString('default', { month: 'short' });
-    if (!monthlyData[month]) {
-      monthlyData[month] = { name: month };
-    }
-
     if (!monthlyData[month][trash.name]) {
       monthlyData[month][trash.name] = 0;
     }
-
     monthlyData[month][trash.name] += trash.price;
   });
 
@@ -44,11 +49,24 @@ function formatMonthlyData(trashData) {
 export default function Chart() {
   const { width } = useWindowDimensions();
   const [data, setData] = useState([]);
+  const [keys, setKeys] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const trashData = await getTrashs();
       const formattedData = formatMonthlyData(trashData);
+
+      // Get unique keys for the Bar components
+      const allKeys = new Set();
+      formattedData.forEach(item => {
+        Object.keys(item).forEach(key => {
+          if (key !== 'name') {
+            allKeys.add(key);
+          }
+        });
+      });
+
+      setKeys(Array.from(allKeys));
       setData(formattedData);
     };
 
@@ -65,11 +83,11 @@ export default function Chart() {
       reverseStackOrder
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
+      <XAxis dataKey="name" tick={{ textAnchor: 'end' }} interval={0} />
       <YAxis />
       <Tooltip />
       <Legend />
-      {Object.keys(data[0] || {}).filter(key => key !== 'name').map((key, index) => (
+      {keys.map((key, index) => (
         <Bar key={key} dataKey={key} stackId="a" fill={index % 2 === 0 ? "#ABF600" : "#5B7E0B"} />
       ))}
     </BarChart>
