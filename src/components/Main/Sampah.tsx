@@ -1,13 +1,13 @@
 import Table from "./Tabel";
 import SampahTemp from "./table_temp/SampahTemp";
 
-import { Trash, addTrash } from "../../services/trash_db";
-import { useState } from "react";
+import { Trash, addTrash, getTrashs } from "../../services/trash_db";
+import { useEffect, useState } from "react";
 import { Timestamp } from "firebase/firestore";
 import { nanoid } from "nanoid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function ModalAddSampah() {
+function ModalAddSampah({ onAdd }) {
   const [trashName, setTrashName] = useState("");
   const [trashPrice, setTrashPrice] = useState(1);
   const [trashCode, setTrashCode] = useState("");
@@ -27,6 +27,7 @@ function ModalAddSampah() {
 
     try {
       await addTrash(newTrash);
+      onAdd(newTrash);
       // Clear form after submit
       setTrashName("");
       setTrashPrice(1);
@@ -138,10 +139,23 @@ function ModalAddSampah() {
 }
 
 export default function Sampah() {
+  const [trashs, setTrashs] = useState<Trash[]>([]);
+
+  useEffect(() => {
+    async function fetchdata() {
+      const data = await getTrashs();
+      setTrashs(data);
+    }
+    fetchdata();
+  }, []);
+
+  const handleAddTrash = (newTrash: Trash) => {
+    setTrashs((prevTrashs) => [...prevTrashs, newTrash]);
+  };
   return (
     <div className="p-16 sm:ml-64 dark:bg-background-color-theme min-h-screen">
       <Table>
-        <SampahTemp />
+        <SampahTemp trashs={trashs} />
       </Table>
       <a
         data-modal-target="crud-modal"
@@ -151,7 +165,7 @@ export default function Sampah() {
       >
         Toggle modal
       </a>
-      <ModalAddSampah />
+      <ModalAddSampah onAdd={handleAddTrash} />
     </div>
   );
 }

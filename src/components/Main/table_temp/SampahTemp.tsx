@@ -1,20 +1,7 @@
 "use server";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Trash, getTrashs } from "../../../services/trash_db";
-import { useState, useEffect } from "react";
 
-export default function SampahTemp() {
-  const [trashs, setTrashs] = useState<Trash[]>([]);
-
-  useEffect(() => {
-    async function fetchdata() {
-      const data = await getTrashs();
-      setTrashs(data);
-    }
-    fetchdata();
-  }, []);
-
+export default function SampahTemp({ trashs }) {
   return (
     <>
       <thead className="text-xs text-gray-900 uppercase dark:text-gray-400">
