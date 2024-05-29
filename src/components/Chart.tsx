@@ -22,9 +22,28 @@ function useWindowDimensions() {
   return windowDimensions;
 }
 
+function formatMonthlyData(trashData) {
+  const monthlyData = {};
+
+  trashData.forEach(trash => {
+    const month = trash.updatedAt.toDate().toLocaleString('default', { month: 'short' });
+    if (!monthlyData[month]) {
+      monthlyData[month] = { name: month };
+    }
+
+    if (!monthlyData[month][trash.name]) {
+      monthlyData[month][trash.name] = 0;
+    }
+
+    monthlyData[month][trash.name] += trash.price;
+  });
+
+  return Object.values(monthlyData);
+}
+
 export default function Chart() {
   const { width } = useWindowDimensions();
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
