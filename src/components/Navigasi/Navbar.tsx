@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import DarkModeToggle from "./DarkModeToggle";
 
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -15,6 +15,24 @@ function BtnHamburgerMenu() {
       <span className="sr-only">Open sidebar</span>
       <GiHamburgerMenu />
     </button>
+  );
+}
+
+function NavbarText() {
+  const location = useLocation();
+
+  let linkText = "Dashboard";
+  if (location.pathname === "/laporan") {
+    linkText = "Laporan";
+  } else if (location.pathname === "/users") {
+    linkText = "Users";
+  } else if (location.pathname === "/sampah") {
+    linkText = "Sampah";
+  }
+  return (
+    <a className="block px-4 py-2 text-2xl text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+      {linkText}
+    </a>
   );
 }
 
@@ -47,10 +65,7 @@ function MenuProfileNavbar() {
         </div>
         <ul className="py-2" aria-labelledby="user-menu-button">
           <li>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-            >
+            <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
               Dashboard
             </a>
           </li>
@@ -91,9 +106,7 @@ export default function Navbar() {
         <div className="flex flex-wrap items-center justify-between mx-auto p-4">
           <BtnHamburgerMenu />
 
-          <p className="font-semibold text-2xl dark:text-white text-gray-950 max-sm:text-lg ml-14">
-            Dashboard
-          </p>
+          <NavbarText />
 
           <div className="flex flex-wrap items-center justify-end pl-4">
             {/* <NavLink
