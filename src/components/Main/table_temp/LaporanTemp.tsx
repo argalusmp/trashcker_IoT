@@ -42,31 +42,39 @@ export default function LaporanTemp() {
         </tr>
       </thead>
       <tbody>
-        {scales.map((scale) => (
-          <tr key={scale.id} className="dark:text-white text-black">
-            <th
-              scope="row"
-              className="px-9 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              {scale.updatedAt &&
-                new Date(scale.updatedAt.seconds * 1000).toLocaleString()}
-            </th>
-            <td className="px-8 py-3">{scale.trash?.name}</td>
-            <td className="px-9 py-3">
-              {Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-              }).format(scale.trash?.price ?? 0)}
-            </td>
-            <td className="px-9 py-3">{scale.weight}</td>
-            <td className="px-9 py-3">
-              {Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-              }).format(scale.total_price ?? 0)}
-            </td>
-            <td className="px-9 py-1">{scale.user?.name}</td>
-            {/* <td className="px-6 py-4">
+        {scales
+          .sort((a, b) => {
+            // Convert Firestore timestamp to JavaScript Date object
+            const dateA = new Date(a.updatedAt.seconds * 1000);
+            const dateB = new Date(b.updatedAt.seconds * 1000);
+            // Sort in descending order (most recent first)
+            return dateB.valueOf() - dateA.valueOf();
+          })
+          .map((scale) => (
+            <tr key={scale.id} className="dark:text-white text-black">
+              <th
+                scope="row"
+                className="px-9 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {scale.updatedAt &&
+                  new Date(scale.updatedAt.seconds * 1000).toLocaleString()}
+              </th>
+              <td className="px-8 py-3">{scale.trash?.name}</td>
+              <td className="px-9 py-3">
+                {Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                }).format(scale.trash?.price ?? 0)}
+              </td>
+              <td className="px-9 py-3">{scale.weight}</td>
+              <td className="px-9 py-3">
+                {Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                }).format(scale.total_price ?? 0)}
+              </td>
+              <td className="px-9 py-1">{scale.user?.name}</td>
+              {/* <td className="px-6 py-4">
               <div className="action flex flex-grow ">
                 <a
                   href="#"
@@ -83,8 +91,8 @@ export default function LaporanTemp() {
                 </a>
               </div>
             </td> */}
-          </tr>
-        ))}
+            </tr>
+          ))}
       </tbody>
     </div>
   );
