@@ -189,9 +189,9 @@ export default function Dashboard() {
         className="p-10 sm:ml-64 dark:bg-background-color-theme"
       >
         <div className="dark:bg-outline-color-theme w-full h-14 rounded-xl px-6 text-2xl font-semibold dark:text-white py-3 shadow-2xl">
-          {`Selamat Datang di Bank Sampah, ${currentUser?.name || "User"}`}
+          {`Selamat Datang di Airmember`}
         </div>
-        <div className="flex justify-around space-x-10 mb-10 w-692 items-center">
+        <div className="flex justify-around space-x-10 mb-10 w-692 items-center pb-[230px]">
           <div className="h-52 dark:bg-outline-color-theme rounded-xl mt-12 shadow-2xl">
             <h2 className="dark:text-white p-6 text-xl font-semibold">
               Earnings
@@ -218,7 +218,7 @@ export default function Dashboard() {
             </button>
           </div>
         </div>
-        <Chart />
+        {/* <Chart /> */}
 
         <div
           id="static-modal"
