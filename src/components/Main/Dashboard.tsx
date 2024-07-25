@@ -86,10 +86,23 @@ export default function Dashboard() {
   const [trashes, setTrashes] = useState<TrashModel[]>([]);
   const [todayDate, setTodayDate] = useState<string>(getTodayDate());
   const [client, setClient] = useState(null);
+  const [isSubed, setIsSub] = useState(false);
   const [connectStatus, setConnectStatus] = useState("Connect");
-  const [payload, setPayload] = useState({ message: null });
+  const [payload, setPayload] = useState({"density":0,"alert":false});
   const navigate = useNavigate();
   const topic = "emqx/esp32";
+
+   // Deklarasi variabel keruh
+   let keruh = "";
+
+   // Logika if-else untuk menentukan nilai keruh
+   if (payload.density <= 30 && payload.density >= 1) {
+     keruh = "Sangat Keruh";
+   } else if (payload.density <= 70 && payload.density >= 31) {
+     keruh = "So so lah";
+   } else if (payload.density >= 70) {
+     keruh = "Jernih";
+   }
 
   const [showInfo, setShowInfo] = useState(false);
 
@@ -110,19 +123,23 @@ export default function Dashboard() {
           return;
         }
         console.log(`Subscribe to topics: ${topic}`);
+        setIsSub(true);
       });
     }
   };
 
   const setupMQTT = () => {
-    const host = "wss://z9080011.ala.asia-southeast1.emqxsl.com:8084/mqtt";
+    const host = "wss://9f02b3b96b854c22a6bd615b55c7a40a.s1.eu.hivemq.cloud:8884/mqtt";
     const options = {
       clientId: "emqx_react_" + Math.random().toString(16).substring(2, 8),
-      username: "adit",
-      password: "123456",
+      username: "fahmi",
+      password: "Fahmi12345",
+      protocol: "wss",
     };
+    const topic = "emqx/esp32";
 
     mqttConnect(host, options);
+    mqttSub({ topic: topic, qos: 0 });
   };
 
   useEffect(() => {
@@ -186,7 +203,7 @@ export default function Dashboard() {
       {showInfo ? <Info /> : null}
       <div
         id="dashboard"
-        className="p-10 sm:ml-64 dark:bg-background-color-theme"
+        className="p-10 pb-[90px] sm:ml-64 dark:bg-background-color-theme"
       >
         <div className="dark:bg-outline-color-theme w-full h-14 rounded-xl px-6 text-2xl font-semibold dark:text-white py-3 shadow-2xl">
           {`Selamat Datang di Airmember`}
@@ -194,20 +211,24 @@ export default function Dashboard() {
         <div className="flex justify-around space-x-10 mb-10 w-692 items-center pb-[230px]">
           <div className="h-52 dark:bg-outline-color-theme rounded-xl mt-12 shadow-2xl">
             <h2 className="dark:text-white p-6 text-xl font-semibold">
-              Earnings
+              Info
             </h2>
             <div className="flex">
               <div className="flex justify-around items-center h-28 w-80 dark:bg-background-color-theme mx-6 rounded-xl dark:text-white bg-gray-200">
-                <h1 className="font-semibold">Pendapatan:</h1>
-                <h1 className="text-secondary-color-theme font-semibold text-xl">{`Rp ${totalPrice.toLocaleString()}`}</h1>
+                <h1 className="font-semibold">Peringatan:</h1>
+                <h1 className="text-secondary-color-theme font-semibold text-xl">{`${payload.alert? "Minun blok":"AMaaaan"}`}</h1>
               </div>
               <div className="flex justify-around items-center h-28 w-80 dark:bg-background-color-theme mx-6 rounded-xl dark:text-white bg-gray-200">
-                <h1 className="font-semibold">Berat:</h1>
-                <h1 className="text-secondary-color-theme font-semibold text-xl">{`${totalWeight} Kg`}</h1>
+                <div>
+                  <h1 className="font-semibold">Turbidity :</h1>
+                  <h1 className="text-secondary-color-theme font-semibold text-xl">{`${payload.density}  `}</h1>
+                </div>
+                <h1 className="text-secondary-color-theme font-semibold text-xl">{keruh}</h1>
               </div>
             </div>
           </div>
-          <div className="h-40 w-full dark:bg-background-color-theme shadow-2xl rounded-xl mt-12 flex-col py-3 space-y-3">
+          {/* Ini adalah Timbang Card */}
+          {/* <div className="h-40 w-full dark:bg-background-color-theme shadow-2xl rounded-xl mt-12 flex-col py-3 space-y-3">
             <img src="weighter.png" className="w-16 mx-20" alt="Wighter Logo" />
             <button
               className="rounded-2xl bg-secondary-color-theme mx-3 w-52 h-11 flex justify-center items-center font-semibold hover:bg-outline-color-theme cursor-pointer"
@@ -216,7 +237,7 @@ export default function Dashboard() {
             >
               Timbang
             </button>
-          </div>
+          </div> */}
         </div>
         {/* <Chart /> */}
 
@@ -291,7 +312,7 @@ export default function Dashboard() {
                 <img src="weighter.png" className="w-32" alt="Wighter Logo" />
                 {/* <input type="text" value={ payload.berat??0 }/> */}
                 <h1 className="text-white font-semibold text-3xl">
-                  {payload.weight ?? 0}
+                  {payload.density ?? 0}
                 </h1>
               </div>
               <div className="flex items-center p-4 md:p-5 rounded-b mt-5">
