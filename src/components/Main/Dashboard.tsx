@@ -88,7 +88,7 @@ export default function Dashboard() {
   const [client, setClient] = useState(null);
   const [isSubed, setIsSub] = useState(false);
   const [connectStatus, setConnectStatus] = useState("Connect");
-  const [payload, setPayload] = useState({"density":0,"alert":false});
+  const [payload, setPayload] = useState({"turbidity":0,"alert":0});
   const navigate = useNavigate();
   const topic = "emqx/esp32";
 
@@ -96,11 +96,11 @@ export default function Dashboard() {
    let keruh = "";
 
    // Logika if-else untuk menentukan nilai keruh
-   if (payload.density <= 30 && payload.density >= 1) {
+   if (payload.turbidity <= 30 && payload.turbidity >= 0) {
      keruh = "Sangat Keruh";
-   } else if (payload.density <= 70 && payload.density >= 31) {
+   } else if (payload.turbidity <= 70 && payload.turbidity >= 31) {
      keruh = "So so lah";
-   } else if (payload.density >= 70) {
+   } else if (payload.turbidity >= 70) {
      keruh = "Jernih";
    }
 
@@ -131,7 +131,7 @@ export default function Dashboard() {
   const setupMQTT = () => {
     const host = "wss://9f02b3b96b854c22a6bd615b55c7a40a.s1.eu.hivemq.cloud:8884/mqtt";
     const options = {
-      clientId: "emqx_react_" + Math.random().toString(16).substring(2, 8),
+      clientId: "emqx_react_1234567",
       username: "fahmi",
       password: "Fahmi12345",
       protocol: "wss",
@@ -182,6 +182,7 @@ export default function Dashboard() {
       });
 
       client.on("message", (topic, message) => {
+        console.log(message.toString());
         const payload = JSON.parse(message.toString());
         setPayload(payload);
         console.log(`received message: ${message} from topic: ${topic}`);
@@ -216,12 +217,12 @@ export default function Dashboard() {
             <div className="flex">
               <div className="flex justify-around items-center h-28 w-80 dark:bg-background-color-theme mx-6 rounded-xl dark:text-white bg-gray-200">
                 <h1 className="font-semibold">Peringatan:</h1>
-                <h1 className="text-secondary-color-theme font-semibold text-xl">{`${payload.alert? "Minun blok":"AMaaaan"}`}</h1>
+                <h1 className="text-secondary-color-theme font-semibold text-xl">{`${payload.alert == 1? "Minun blok":"AMaaaan"}`}</h1>
               </div>
               <div className="flex justify-around items-center h-28 w-80 dark:bg-background-color-theme mx-6 rounded-xl dark:text-white bg-gray-200">
                 <div>
                   <h1 className="font-semibold">Turbidity :</h1>
-                  <h1 className="text-secondary-color-theme font-semibold text-xl">{`${payload.density}  `}</h1>
+                  <h1 className="text-secondary-color-theme font-semibold text-xl">{`${payload.turbidity}  `}</h1>
                 </div>
                 <h1 className="text-secondary-color-theme font-semibold text-xl">{keruh}</h1>
               </div>
@@ -312,7 +313,7 @@ export default function Dashboard() {
                 <img src="weighter.png" className="w-32" alt="Wighter Logo" />
                 {/* <input type="text" value={ payload.berat??0 }/> */}
                 <h1 className="text-white font-semibold text-3xl">
-                  {payload.density ?? 0}
+                  {payload.turbidity ?? 0}
                 </h1>
               </div>
               <div className="flex items-center p-4 md:p-5 rounded-b mt-5">
